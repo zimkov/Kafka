@@ -9,16 +9,20 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - '8181:8181'
+      - '8080:8080'
     networks:
       - example
     depends_on:
       postgres:
         condition: service_healthy
   postgres:
+    container_name: 'postgres'
     image: 'postgres:latest'
+    build:
+      context: ./
+      dockerfile: Dockerfile.postgres
     environment:
-      - 'POSTGRES_DB=jdbc:postgresql://localhost/filmrate'
+      - 'POSTGRES_DB=jdbc:postgresql://postgres/filmrate'
       - 'POSTGRES_PASSWORD=123'
       - 'POSTGRES_USER=postgres'
     ports:
